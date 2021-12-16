@@ -3,10 +3,11 @@ import './component/style.css';
 import axios from 'axios';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import Loader from 'react-loader-spinner';
-// import Searchbar from './component/Searchbar';
-// import ImageGallery from './component/ImageGallery';
-// import Button from './component/Button';
-// import Modal from './component/Modal';
+import Searchbar from './component/Searchbar';
+import ImageGallery from './component/ImageGallery';
+
+import Button from './component/Button';
+import Modal from './component/Modal';
 
 class App extends Component {
   constructor() {
@@ -23,8 +24,6 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.openFullSize = this.openFullSize.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleBackdropClick = this.handleBackdropClick.bind(this);
   }
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
@@ -33,16 +32,6 @@ class App extends Component {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  handleKeyDown(e) {
-    if (e.code === 'Escape') {
-      this.setState({ modalOpen: false });
-    }
-  }
-  handleBackdropClick(e) {
-    if (e.currentTarget === e.target) {
-      this.setState({ modalOpen: false });
-    }
-  }
   fetchImages() {
     this.setState({ isLoading: true });
     setTimeout(() => {
@@ -72,8 +61,16 @@ class App extends Component {
   render() {
     return (
       <div>
-        {/* <Searchbar /> */}
-        <header className="searchbar">
+        <Searchbar
+          onSubmitForm={e => {
+            e.preventDefault();
+            this.setState({ images: [], pegeNumber: 1 }, e =>
+              this.fetchImages(),
+            );
+          }}
+          onSearchInput={this.handleChange}
+        />
+        {/* <header className="searchbar">
           <form
             className="form"
             onSubmit={e => {
@@ -96,7 +93,7 @@ class App extends Component {
               onChange={this.handleChange}
             />
           </form>
-        </header>
+        </header> */}
         {this.state.isLoading && (
           <Loader
             className="loader"
@@ -107,8 +104,12 @@ class App extends Component {
             timeout={3000} //3 secs
           />
         )}
-        {/* <ImageGallery /> */}
-        <ul className="gallery">
+        <ImageGallery
+          imagesArr={this.state.images}
+          onFullSize={this.openFullSize}
+        />
+
+        {/* <ul className="gallery">
           {this.state.images.map(image => (
             <li className="gallery-item" key={image.id}>
               <img
@@ -119,9 +120,9 @@ class App extends Component {
               />
             </li>
           ))}
-        </ul>
-        {/* <Button /> */}
-        <div className="loadButton-container">
+        </ul> */}
+        {this.state.images.length > 0 && <Button onNextPage={this.nextPage} />}
+        {/* <div className="loadButton-container">
           {this.state.images.length > 0 && (
             <button
               type="button"
@@ -131,14 +132,13 @@ class App extends Component {
               Load more
             </button>
           )}
-        </div>
-        {/* <Modal /> */}
+        </div> */}
+
         {this.state.modalOpen === true && (
-          <div className="overlay" onClick={this.handleBackdropClick}>
-            <div className="modal">
-              <img src={this.state.largeImage} alt="" />
-            </div>
-          </div>
+          <Modal
+            onCloseModal={() => this.setState({ modalOpen: false })}
+            largeImage={this.state.largeImage}
+          />
         )}
       </div>
     );

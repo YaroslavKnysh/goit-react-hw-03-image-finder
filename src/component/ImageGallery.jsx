@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
-import ImageGalleryItem from './component/ImageGalleryItem';
+import ImageGalleryItem from './ImageGalleryItem';
 
-class ImageGallery extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-  render() {
-    return (
-      <ul className="gallery">
-        {this.state.images.map(image => (
-          <li className="gallery-item" key={image.id}>
-            <ImageGalleryItem />
-          </li>
-        ))}
-      </ul>
-    );
-  }
-}
+const ImageGallery = ({ imagesArr, onFullSize }) => (
+  <ul className="gallery">
+    {imagesArr.map(image => (
+      <ImageGalleryItem
+        imageSmall={image.webformatURL}
+        imageLarge={image.largeImageURL}
+        onFullSize={() => onFullSize(image.largeImageURL)}
+        key={image.id}
+      />
+    ))}
+  </ul>
+);
+
 export default ImageGallery;
