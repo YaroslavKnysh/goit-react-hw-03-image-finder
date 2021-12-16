@@ -2,7 +2,7 @@ import React from 'react';
 
 const ImageGalleryItem = ({ imageSmall, onFullSize }) => (
   <li className="gallery-item">
-    <img src={imageSmall} onClick={onFullSize} alt="" />
+    <img className="image" src={imageSmall} onClick={onFullSize} alt="" />
   </li>
 );
 

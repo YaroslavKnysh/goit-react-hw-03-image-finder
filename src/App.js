@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import './component/style.css';
-import axios from 'axios';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import Loader from 'react-loader-spinner';
+import GetApi from './component/Services';
 import Searchbar from './component/Searchbar';
 import ImageGallery from './component/ImageGallery';
-
 import Button from './component/Button';
 import Modal from './component/Modal';
 
@@ -35,16 +34,24 @@ class App extends Component {
   fetchImages() {
     this.setState({ isLoading: true });
     setTimeout(() => {
-      axios
-        .get(
-          `https://pixabay.com/api/?q=${this.state.searchQuery}&page=${this.state.pageNumber}&key=23926259-20170b2e8904d12034176c2be&image_type=photo&orientation=horizontal&per_page=12`,
-        )
+      GetApi(this.state.searchQuery, this.state.pageNumber)
         .then(response =>
           this.setState({
             images: [...this.state.images, ...response.data.hits],
           }),
         )
         .finally(() => this.setState({ isLoading: false }));
+
+      // axios
+      //   .get(
+      //     `https://pixabay.com/api/?q=${this.state.searchQuery}&page=${this.state.pageNumber}&key=23926259-20170b2e8904d12034176c2be&image_type=photo&orientation=horizontal&per_page=12`,
+      //   )
+      //   .then(response =>
+      //     this.setState({
+      //       images: [...this.state.images, ...response.data.hits],
+      //     }),
+      //   )
+      //   .finally(() => this.setState({ isLoading: false }));
     }, 1500);
   }
   handleChange(e) {
