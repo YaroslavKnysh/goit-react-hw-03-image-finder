@@ -7,7 +7,7 @@ class Button extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="loadButton-container">
         {this.state.images.length > 0 && (
           <button type="button" className="loadButton" onClick={this.nextPage}>
             Load more

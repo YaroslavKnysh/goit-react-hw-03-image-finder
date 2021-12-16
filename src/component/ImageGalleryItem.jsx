@@ -7,17 +7,11 @@ class ImageGalleryItem extends Component {
   }
   render() {
     return (
-      <div>
-        {this.state.images.map(image => (
-          <li className="gallery-item" key={image.id}>
-            <img
-              src={image.webformatURL}
-              onClick={e => this.openFullSize(image.largeImageURL)}
-              alt=""
-            />
-          </li>
-        ))}
-      </div>
+      <img
+        src={image.webformatURL}
+        onClick={e => this.openFullSize(image.largeImageURL)}
+        alt=""
+      />
     );
   }
 }
