@@ -24,12 +24,6 @@ class App extends Component {
     this.nextPage = this.nextPage.bind(this);
     this.openFullSize = this.openFullSize.bind(this);
   }
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
 
   fetchImages() {
     this.setState({ isLoading: true });
